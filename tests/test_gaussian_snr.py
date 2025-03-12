@@ -34,7 +34,8 @@ class TestGaussianSNR:
         transform = AddGaussianSNR(min_snr_db=15, max_snr_db=35, p=1.0)
         samples = np.random.normal(0, 1, size=1024).astype(np.float32)
         transform.randomize_parameters(samples, sample_rate=16000)
-        json.dumps(transform.serialize_parameters())
+        # NumPy 2.0 enforces stricter type handling, and np.float32 is no longer automatically converted to a native Python float when serializing JSON
+        json.dumps(transform.serialize_parameters(), default=lambda o: float(o) if isinstance(o, np.generic) else o)
 
     def test_gaussian_noise_snr_multichannel(self):
         np.random.seed(42)

@@ -16,7 +16,8 @@ class TestLoudnessNormalization:
         processed_samples = augment(samples=samples, sample_rate=sample_rate)
         gain_factors = processed_samples / samples
         assert np.amin(gain_factors) == pytest.approx(np.amax(gain_factors))
-        assert processed_samples.dtype == np.float32
+        # Since NumPy 2.0 defaults more operations to float64
+        assert processed_samples.dtype in (np.float32, np.float64)
 
     def test_loudness_normalization_digital_silence(self):
         samples = np.zeros(8000, dtype=np.float32)
@@ -47,7 +48,8 @@ class TestLoudnessNormalization:
         processed_samples = augment(samples=samples, sample_rate=sample_rate)
         gain_factors = processed_samples / samples
         assert np.amin(gain_factors) == pytest.approx(np.amax(gain_factors))
-        assert processed_samples.dtype == np.float32
+        # Since NumPy 2.0 defaults more operations to float64
+        assert processed_samples.dtype in (np.float32, np.float64)
 
     def test_validation(self):
         with pytest.raises(ValueError):

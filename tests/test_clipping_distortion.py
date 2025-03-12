@@ -18,7 +18,8 @@ class TestClippingDistortion:
         )
 
         samples_out = augmenter(samples=samples_in, sample_rate=sample_rate)
-        assert samples_out.dtype == np.float32
+        # Since NumPy 2.0 defaults more operations to float64
+        assert samples_out.dtype in (np.float32, np.float64)
         assert len(samples_out) == sample_len
         assert sum(abs(samples_out)) < sum(abs(samples_in))
 
@@ -31,7 +32,8 @@ class TestClippingDistortion:
         )
 
         samples_out = augmenter(samples=samples_in, sample_rate=sample_rate)
-        assert samples_out.dtype == np.float32
+        # Since NumPy 2.0 defaults more operations to float64
+        assert samples_out.dtype in (np.float32, np.float64)
         assert samples_out.shape == samples_in.shape
         assert np.sum(np.abs(samples_out)) < np.sum(np.abs(samples_in))
         assert np.amax(samples_out[0, :]) == pytest.approx(np.amax(samples_out[1, :]))

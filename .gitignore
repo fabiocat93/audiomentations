@@ -110,3 +110,4 @@ venv.bak/
 
 # Demo output
 demo/output/**/*.wav
+.qodo
